@@ -2,6 +2,6 @@ import axios from 'axios';
 
 export const userSignupRequest = (userData) => {
   return dispatch => {
-    return axios.post('/api/users', {user: userData});
+    return axios.post('/api/users', userData);
   }
 }
