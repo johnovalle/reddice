@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch, browserHistory } from 'react-ro
 
 import App from './components/App';
 import Greeting from './components/Greeting';
-import SignupPage from './components/signup/SingupPage';
+import SignupPage from './components/signup/SignupPage';
 
 render(
   <Router history={browserHistory}> 
