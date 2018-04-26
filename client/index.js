@@ -1,10 +1,9 @@
 import React from 'react';
 import { render } from  'react-dom';
-import { BrowserRouter as Router, Route, Switch, browserHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-
 
 import App from './components/App';
 import Greeting from './components/Greeting';
@@ -17,7 +16,7 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <Router history={browserHistory}> 
+    <Router> 
       <App>
         <Switch>
           <Route exact path='/' component={Greeting}/>

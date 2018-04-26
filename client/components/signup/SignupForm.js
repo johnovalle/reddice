@@ -4,16 +4,17 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import validateInput from '../../../server/shared/validations/singup';
 import TextFieldGroup from '../common/TextFieldGroup';
+import { withRouter } from 'react-router-dom';
 
 class SignupForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
-      username: '',
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      timezone: '',
+      username: 'a',
+      email: 'a',
+      password: 'a',
+      passwordConfirmation: 'a',
+      timezone: 'a',
       errors: {},
       isLoading: false
     };
@@ -40,10 +41,11 @@ class SignupForm extends React.Component {
 
     if (this.isValid()) {
       this.setState({errors: {}, isLoading: true});
-      this.props.userSignupRequest(this.state).then(
-        () => {}
-      )
-      .catch(error => this.setState({errors: error.response.data, isLoading:false}));
+      this.props.userSignupRequest(this.state).then(() => {
+        this.props.history.push('/');
+      }, error => {
+        this.setState({errors: error.response.data, isLoading:false})
+      });
     }
   }
 
@@ -59,13 +61,13 @@ class SignupForm extends React.Component {
         <TextFieldGroup label='Username' value={this.state.username}
           name='username' onChange={this.onChange} error={errors.username} />
 
-        <TextFieldGroup label='Username' value={this.state.email}
-          name='email' type='email' onChange={this.onChange} error={errors.email} />
+        <TextFieldGroup label='Email' value={this.state.email}
+          name='email' type='text' onChange={this.onChange} error={errors.email} />
 
         <TextFieldGroup label='Password' value={this.state.password}
           name='password' type='password' onChange={this.onChange} error={errors.password} />
 
-        <TextFieldGroup label='Password' value={this.state.passwordConfirmation}
+        <TextFieldGroup label='Password Confirmation' value={this.state.passwordConfirmation}
           name='passwordConfirmation' type='password' onChange={this.onChange} error={errors.passwordConfirmation} />
 
         <div className='form-group'>
@@ -96,4 +98,4 @@ SignupForm.propTypes = {
   userSignupRequest: PropTypes.func.isRequired
 }
 
-export default SignupForm;
+export default withRouter(SignupForm);
