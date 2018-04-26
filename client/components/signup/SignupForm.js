@@ -2,6 +2,8 @@ import React from 'react';
 import timezones from '../../data/timezones';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import validateInput from '../../../server/shared/validations/singup';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -23,13 +25,26 @@ class SignupForm extends React.Component {
     this.setState({[event.target.name]: event.target.value});
   }
 
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+
+    if (!isValid) {
+      this.setState({ errors });
+    }
+
+    return isValid;
+  }
+
   onSubmit(event) {
-    this.setState({errors: {}, isLoading: true});
     event.preventDefault();
-    this.props.userSignupRequest(this.state).then(
-      () => {}
-    )
-    .catch(error => this.setState({errors: error.response.data, isLoading:false}));
+
+    if (this.isValid()) {
+      this.setState({errors: {}, isLoading: true});
+      this.props.userSignupRequest(this.state).then(
+        () => {}
+      )
+      .catch(error => this.setState({errors: error.response.data, isLoading:false}));
+    }
   }
 
   render() {
@@ -41,53 +56,17 @@ class SignupForm extends React.Component {
       <form onSubmit={this.onSubmit}>
         <h1>Join our community!</h1>
 
-        <div className='form-group'>
-          <label className='control-label'>Username</label>
-          <input
-            value={this.state.username}
-            onChange={this.onChange}
-            type='text'
-            name='username'
-            className={classnames('form-control', {'is-invalid': errors.username})}
-          />
-          {errors.username && <div className='invalid-feedback'>{errors.username}</div>}
-        </div>
+        <TextFieldGroup label='Username' value={this.state.username}
+          name='username' onChange={this.onChange} error={errors.username} />
 
-        <div className='form-group'>
-          <label className='control-label'>Email</label>
-          <input
-            value={this.state.email}
-            onChange={this.onChange}
-            type='text'
-            name='email'
-            className={classnames('form-control', {'is-invalid': errors.email})}
-          />
-          {errors.email && <div className='invalid-feedback'>{errors.email}</div>}
-        </div>
+        <TextFieldGroup label='Username' value={this.state.email}
+          name='email' type='email' onChange={this.onChange} error={errors.email} />
 
-        <div className='form-group'>
-          <label className='control-label'>Password</label>
-          <input
-            value={this.state.password}
-            onChange={this.onChange}
-            type='password'
-            name='password'
-            className={classnames('form-control', {'is-invalid': errors.password})}
-          />
-          {errors.password && <div className='invalid-feedback'>{errors.password}</div>}
-        </div>
+        <TextFieldGroup label='Password' value={this.state.password}
+          name='password' type='password' onChange={this.onChange} error={errors.password} />
 
-        <div className='form-group'>
-          <label className='control-label'>Password Confirmation</label>
-          <input
-            value={this.state.passwordConfirmation}
-            onChange={this.onChange}
-            type='password'
-            name='passwordConfirmation'
-            className={classnames('form-control', {'is-invalid': errors.passwordConfirmation})}
-          />
-          {errors.passwordConfirmation && <div className='invalid-feedback'>{errors.passwordConfirmation}</div>}
-        </div>
+        <TextFieldGroup label='Password' value={this.state.passwordConfirmation}
+          name='passwordConfirmation' type='password' onChange={this.onChange} error={errors.passwordConfirmation} />
 
         <div className='form-group'>
           <label className='control-label'>Timezone</label>

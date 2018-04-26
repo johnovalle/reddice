@@ -20,7 +20,10 @@ export default {
     rules: [
       {
         test: /\.js$/,
-        include: path.join(__dirname, 'client'),
+        include: [
+          path.join(__dirname, 'client'),
+          path.join(__dirname, 'server/shared'),
+        ],
         use: [ 'babel-loader' ]
       },
     ],
