@@ -20,9 +20,13 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
+    "bookshelf": "^0.13.3",
     "classnames": "^2.2.5",
     "express": "^4.16.3",
+    "knex": "^0.14.6",
+    "pg": "^7.4.1",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
