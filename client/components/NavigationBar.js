@@ -14,9 +14,12 @@ const NavigationBar = () => {
           <a className="nav-link">Left Link 2</a>
         </li>
       </ul>*/}
-      <ul className="navbar-nav ml-auto">
+      <ul className="navbar-nav flex-row">
         <li className="nav-item">
-          <Link to='/signup' className="nav-link">Sign up</Link>
+          <Link to='/signup' className="nav-link">Sign up &nbsp;</Link>
+        </li>
+        <li className="nav-item">
+          <Link to='/login' className="nav-link">Login</Link>
         </li>
         {/*<li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">            Dropdown on Right</a>
