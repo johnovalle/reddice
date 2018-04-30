@@ -1,36 +1,57 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../actions/authActions';
 
-const NavigationBar = () => {
-  return (
-    <nav className="navbar navbar-dark bg-primary">
+class NavigationBar extends React.Component {
 
-      <Link to='/' className="navbar-brand">Red Dice</Link>
-      {/*<ul className="navbar-nav mr-auto">
-        <li className="nav-item active">
-          <a className="nav-link">Left Link 1</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link">Left Link 2</a>
-        </li>
-      </ul>*/}
+  logout(event) {
+    event.preventDefault();
+    this.props.logout();
+  }
+
+  render() {
+    const { isAuthenticated } = this.props.auth;
+
+    const userLinks = (
       <ul className="navbar-nav flex-row">
         <li className="nav-item">
-          <Link to='/signup' className="nav-link">Sign up &nbsp;</Link>
+          <a className="nav-link" href='#' onClick={this.logout.bind(this)}>Logout</a>
         </li>
-        <li className="nav-item">
-          <Link to='/login' className="nav-link">Login</Link>
-        </li>
-        {/*<li className="nav-item dropdown">
-          <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">            Dropdown on Right</a>
-          <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a className="dropdown-item" href="#">Action</a>
-            <a className="dropdown-item" href="#">Another action with a lot of text inside of an item</a>
-          </div>
-        </li>*/}
       </ul>
-    </nav>
-  );
+    );
+
+    const guestLinks = (
+      <ul className="navbar-nav flex-row">
+          <li className="nav-item">
+            <Link to='/signup' className="nav-link">Sign up &nbsp;</Link>
+          </li>
+          <li className="nav-item">
+            <Link to='/login' className="nav-link">Login</Link>
+          </li>
+        </ul>
+    );
+
+    return (
+      <nav className="navbar navbar-dark bg-primary">
+  
+        <Link to='/' className="navbar-brand">Red Dice</Link>
+        { isAuthenticated ? userLinks : guestLinks }
+      </nav>
+    );
+  }
 };
 
-export default NavigationBar;
+NavigationBar.propTypes = {
+  auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, { logout })(NavigationBar);

@@ -11,6 +11,15 @@ export const setCurrentUser = (user) => {
   }
 };
 
+export const logout = () => {
+  return dispatch => {
+    localStorage.removeItem('jwtToken');
+    setAuthorizationToken(false);
+    dispatch(setCurrentUser({}));
+  }
+  
+};
+
 export const login = (data) => {
   return dispatch => {
     return axios.post('/api/auth', data).then(res => {
